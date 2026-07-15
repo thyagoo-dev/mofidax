@@ -10,6 +10,9 @@ export default defineConfig({
     strictPort: true, // Se a porta estiver ocupada, o Vite exibirá um erro em vez de trocar automaticamente.
   },
 
+  // Necessário para deploy no GitHub Pages
+  base: '/mofidax/',
+
   plugins: [
     react(),
     tailwindcss(),
