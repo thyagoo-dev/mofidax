@@ -1,4 +1,5 @@
-import { HardDrive, Zap, Moon, Sun, Monitor, Shield, Code2, LogOut, ChevronRight, Crown } from 'lucide-react';
+import { useState } from 'react';
+import { HardDrive, Zap, Moon, Sun, Monitor, Shield, Code2, ChevronRight, ChevronDown, Sparkles, Check } from 'lucide-react';
 import { useHistoryStore } from '../store/useHistoryStore';
 import { useSettingsStore } from '../store/useSettingsStore';
 
@@ -10,22 +11,29 @@ const formatBytes = (bytes: number) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 };
 
+const FREE_PLAN_LIMIT_BYTES = 500 * 1024 * 1024; // 500 MB
+
+const PRO_FEATURES = [
+  'Cache estendido (até 5 GB)',
+  'Fila de processamento em lote',
+  'Remoção de fundo com IA',
+  'Sincronização entre dispositivos',
+];
+
 export function ProfilePage() {
   const { items } = useHistoryStore();
-  
-  const { 
+
+  const {
     hardwareAcceleration, toggleHardwareAcceleration,
     theme, setTheme,
-    clearOnClose, toggleClearOnClose 
+    clearOnClose, toggleClearOnClose
   } = useSettingsStore();
-  
-  const totalSavedSize = items.reduce((acc, item) => acc + item.newSize, 0);
 
-  const user = {
-    name: "Cícero Thyago",
-    email: "contato@th16technologies.com",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Thyago&backgroundColor=3b82f6",
-  };
+  const [showProDetails, setShowProDetails] = useState(false);
+
+  const totalSavedSize = items.reduce((acc, item) => acc + item.newSize, 0);
+  const usagePercent = Math.min((totalSavedSize / FREE_PLAN_LIMIT_BYTES) * 100, 100);
+  const isNearLimit = usagePercent >= 80;
 
   const handleThemeChange = () => {
     if (theme === 'dark') setTheme('light');
@@ -35,22 +43,42 @@ export function ProfilePage() {
 
   return (
     <div className="flex-1 w-full max-w-3xl mx-auto px-4 pt-20 pb-24 flex flex-col gap-6">
-      
-      <div className="flex items-center gap-5 p-6 bg-surface border border-white/10 rounded-3xl shadow-xl relative overflow-hidden">
+
+      {/* Card de plano — compacto, com detalhes do Pro escondidos por padrão */}
+      <div className="bg-surface border border-white/10 rounded-3xl shadow-xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-        
-        <img src={user.avatar} alt="Avatar" className="w-20 h-20 rounded-2xl border-2 border-white/10 shadow-lg bg-white/5" />
-        <div className="flex-1 z-10">
-          <h1 className="text-2xl font-bold tracking-tight text-primary flex items-center gap-2">
-            {user.name}
-            <span className="bg-gradient-to-r from-amber-200 to-amber-500 text-black text-[10px] font-bold uppercase px-2 py-0.5 rounded-full flex items-center gap-1 shadow-lg shadow-amber-500/20">
-              <Crown className="w-3 h-3" /> Pro
-            </span>
-          </h1>
-          <p className="text-secondary text-sm">{user.email}</p>
+
+        <div className="flex items-center justify-between p-6 z-10 relative">
+          <div>
+            <p className="text-xs font-semibold text-secondary uppercase tracking-wider mb-1">Seu plano</p>
+            <h1 className="text-2xl font-bold tracking-tight text-primary">Gratuito</h1>
+          </div>
+          <button className="flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-black text-sm font-bold px-4 py-2 rounded-xl shadow-lg shadow-amber-500/20 hover:brightness-110 transition-all shrink-0">
+            <Sparkles className="w-4 h-4" /> Upgrade
+          </button>
         </div>
+
+        <button
+          onClick={() => setShowProDetails((prev) => !prev)}
+          className="w-full flex items-center justify-between px-6 py-3 border-t border-white/5 text-sm text-secondary hover:bg-white/5 transition-colors z-10 relative"
+        >
+          <span>Ver o que muda no Pro</span>
+          <ChevronDown className={`w-4 h-4 transition-transform ${showProDetails ? 'rotate-180' : ''}`} />
+        </button>
+
+        {showProDetails && (
+          <ul className="px-6 pb-5 space-y-2 z-10 relative">
+            {PRO_FEATURES.map((feature) => (
+              <li key={feature} className="flex items-center gap-2 text-sm text-secondary">
+                <Check className="w-4 h-4 text-amber-400 shrink-0" />
+                {feature}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
+      {/* Uso do dispositivo — aviso quando perto do limite gratuito */}
       <div className="bg-surface border border-white/10 rounded-3xl p-6 shadow-lg">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-base font-semibold flex items-center gap-2">
@@ -64,22 +92,27 @@ export function ProfilePage() {
             <span className="font-mono font-medium">{formatBytes(totalSavedSize)}</span>
           </div>
           <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-accent rounded-full transition-all duration-1000" 
-              style={{ width: `${Math.min((totalSavedSize / (500 * 1024 * 1024)) * 100, 100)}%` }} 
+            <div
+              className={`h-full rounded-full transition-all duration-1000 ${isNearLimit ? 'bg-amber-400' : 'bg-accent'}`}
+              style={{ width: `${usagePercent}%` }}
             />
           </div>
-          <p className="text-xs text-secondary/60 text-right mt-1">Limite flexível do PWA (500 MB)</p>
+          <p className={`text-xs text-right mt-1 ${isNearLimit ? 'text-amber-400' : 'text-secondary/60'}`}>
+            {isNearLimit
+              ? 'Você está perto do limite do plano gratuito (500 MB)'
+              : 'Limite do plano gratuito (500 MB)'}
+          </p>
         </div>
       </div>
 
+      {/* Preferências — agora logo em seguida, sem bloco promocional no meio */}
       <div className="bg-surface border border-white/10 rounded-3xl overflow-hidden shadow-lg">
         <h2 className="text-xs font-semibold text-secondary uppercase tracking-wider px-6 py-4 bg-white/5 border-b border-white/5">
           Preferências do Motor
         </h2>
-        
+
         <div className="divide-y divide-white/5">
-          
+
           <button onClick={toggleHardwareAcceleration} className="w-full flex items-center justify-between p-4 sm:px-6 hover:bg-white/5 transition-colors">
             <div className="flex items-center gap-3">
               <div className={`p-2 rounded-lg transition-colors ${hardwareAcceleration ? 'bg-blue-500/10 text-blue-400' : 'bg-white/5 text-secondary'}`}>
@@ -128,18 +161,16 @@ export function ProfilePage() {
       </div>
 
       <div className="flex flex-col gap-3 mt-2">
-        <a 
-          href="https://github.com/SeuUsuario/Mofidax"
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 text-sm font-medium transition-colors"
-        >
-          <Code2 className="w-4 h-4" /> Código Fonte
-        </a>
-        <button className="flex items-center justify-center gap-2 p-4 rounded-2xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 text-rose-400 text-sm font-medium transition-colors">
-          <LogOut className="w-4 h-4" /> Sair da Conta
-        </button>
-      </div>
+  <a
+    href="https://github.com/thyagoo-dev/mofidax"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 text-sm font-medium transition-colors"
+  >
+    <Code2 className="w-4 h-4" />
+    Código Fonte
+  </a>
+</div>
 
       <div className="text-center mt-6 pb-4">
         <p className="text-xs text-secondary/50 font-mono">Mofidax v1.0.0 • Engine Wasm-0.9.4</p>

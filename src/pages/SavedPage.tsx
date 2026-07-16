@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useHistoryStore } from '../store/useHistoryStore';
-import { Download, Trash2, Clock, ArrowRightLeft, Minimize2, Maximize, Eye, X, Scissors } from 'lucide-react';
+import { Download, Trash2, Clock, ArrowRightLeft, Minimize2, Maximize, Eye, X, Scissors, FileType2, Eraser } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const formatBytes = (bytes: number) => {
@@ -15,7 +15,9 @@ const getActionStyle = (action: string) => {
   switch (action) {
     case 'Conversão': return 'bg-purple-400/10 text-purple-400';
     case 'Redimensionamento': return 'bg-emerald-400/10 text-emerald-400';
-    case 'Recorte': return 'bg-amber-400/10 text-amber-400'; // Nova cor
+    case 'Recorte': return 'bg-amber-400/10 text-amber-400';
+    case 'Imagem para PDF': return 'bg-rose-400/10 text-rose-400';
+    case 'Remoção de Fundo': return 'bg-cyan-400/10 text-cyan-400';
     default: return 'bg-blue-400/10 text-blue-400';
   }
 };
@@ -24,7 +26,9 @@ const getActionIcon = (action: string) => {
   switch (action) {
     case 'Conversão': return <ArrowRightLeft className="w-5 h-5" />;
     case 'Redimensionamento': return <Maximize className="w-5 h-5" />;
-    case 'Recorte': return <Scissors className="w-5 h-5" />; // Novo Ícone
+    case 'Recorte': return <Scissors className="w-5 h-5" />;
+    case 'Imagem para PDF': return <FileType2 className="w-5 h-5" />;
+    case 'Remoção de Fundo': return <Eraser className="w-5 h-5" />;
     default: return <Minimize2 className="w-5 h-5" />;
   }
 };

@@ -3,8 +3,8 @@ import { create } from 'zustand';
 export interface HistoryItem {
   id: string;
   fileName: string;
-  // Adicionamos a ação 'Recorte' à nossa tipagem
-  action: 'Compressão' | 'Conversão' | 'Redimensionamento' | 'Recorte';
+  // Adicionamos as ações 'Recorte' e 'Imagem para PDF' à nossa tipagem
+  action: 'Compressão' | 'Conversão' | 'Redimensionamento' | 'Recorte' | 'Imagem para PDF' | 'Remoção de Fundo';
   originalSize: number;
   newSize: number;
   timestamp: number;

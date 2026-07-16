@@ -7,10 +7,8 @@ const tools = [
   { id: 'convert', name: 'Converter formatos', icon: ArrowRightLeft, path: '/convert', color: 'text-purple-400', bg: 'bg-purple-400/10', isReady: true },
   { id: 'resize', name: 'Redimensionar', icon: Maximize, path: '/resize', color: 'text-emerald-400', bg: 'bg-emerald-400/10', isReady: true },
   { id: 'crop', name: 'Cortar imagens', icon: Scissors, path: '/crop', color: 'text-amber-400', bg: 'bg-amber-400/10', isReady: true }, // Ferramenta de Cortar Desbloqueada!
-  
-  // Ferramentas futuras
-  { id: 'pdf', name: 'Imagem para PDF', icon: FileType2, path: '#', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: false },
-  { id: 'bg', name: 'Remover Fundo', icon: Eraser, path: '#', color: 'text-cyan-400', bg: 'bg-cyan-400/10', isReady: false },
+  { id: 'pdf', name: 'Imagem para PDF', icon: FileType2, path: '/pdf', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true },
+  { id: 'bg', name: 'Remover Fundo', icon: Eraser, path: '/remove-bg', color: 'text-cyan-400', bg: 'bg-cyan-400/10', isReady: true },
 ];
 
 export function Home() {
