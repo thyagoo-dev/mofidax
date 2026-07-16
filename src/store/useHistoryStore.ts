@@ -3,8 +3,7 @@ import { create } from 'zustand';
 export interface HistoryItem {
   id: string;
   fileName: string;
-  // Adicionamos as ações 'Recorte' e 'Imagem para PDF' à nossa tipagem
-  action: 'Compressão' | 'Conversão' | 'Redimensionamento' | 'Recorte' | 'Imagem para PDF' | 'Remoção de Fundo';
+  action: 'Compressão' | 'Conversão' | 'Redimensionamento' | 'Recorte' | 'Imagem para PDF' | 'Juntar PDF' | 'Dividir PDF' | 'PDF para Imagem' | 'Remoção de Fundo';
   originalSize: number;
   newSize: number;
   timestamp: number;

@@ -1,4 +1,4 @@
-import { Search, Minimize2, ArrowRightLeft, Maximize, Scissors, FileType2, Eraser, Lock } from 'lucide-react';
+import { Search, Minimize2, ArrowRightLeft, Maximize, Scissors, FileType2, Eraser, Files, FileMinus, FileImage, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -6,9 +6,12 @@ const tools = [
   { id: 'compress', name: 'Comprimir imagens', icon: Minimize2, path: '/compressor', color: 'text-blue-400', bg: 'bg-blue-400/10', isReady: true },
   { id: 'convert', name: 'Converter formatos', icon: ArrowRightLeft, path: '/convert', color: 'text-purple-400', bg: 'bg-purple-400/10', isReady: true },
   { id: 'resize', name: 'Redimensionar', icon: Maximize, path: '/resize', color: 'text-emerald-400', bg: 'bg-emerald-400/10', isReady: true },
-  { id: 'crop', name: 'Cortar imagens', icon: Scissors, path: '/crop', color: 'text-amber-400', bg: 'bg-amber-400/10', isReady: true }, // Ferramenta de Cortar Desbloqueada!
+  { id: 'crop', name: 'Cortar imagens', icon: Scissors, path: '/crop', color: 'text-amber-400', bg: 'bg-amber-400/10', isReady: true },
   { id: 'pdf', name: 'Imagem para PDF', icon: FileType2, path: '/pdf', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true },
-  { id: 'bg', name: 'Remover Fundo', icon: Eraser, path: '/remove-bg', color: 'text-cyan-400', bg: 'bg-cyan-400/10', isReady: true },
+  { id: 'merge', name: 'Juntar PDF', icon: Files, path: '/merge-pdf', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true },
+  { id: 'split', name: 'Dividir PDF', icon: FileMinus, path: '/split-pdf', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true },
+  { id: 'pdf2img', name: 'PDF para Imagem', icon: FileImage, path: '/pdf-to-image', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true }, // Adicionado!
+  { id: 'bg', name: 'Remover Fundo', icon: Eraser, path: '/bg-remove', color: 'text-cyan-400', bg: 'bg-cyan-400/10', isReady: true },
 ];
 
 export function Home() {
@@ -20,7 +23,6 @@ export function Home() {
 
   return (
     <div className="flex-1 w-full max-w-7xl mx-auto px-4 pt-24 pb-24 sm:pb-8 flex flex-col">
-      
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-6 text-center sm:text-left tracking-tight">O que você precisa hoje?</h1>
         <div className="relative max-w-2xl mx-auto sm:mx-0">
@@ -66,12 +68,6 @@ export function Home() {
           </Link>
         ))}
       </div>
-
-      {filteredTools.length === 0 && (
-        <div className="text-center py-12 text-secondary">
-          Nenhuma ferramenta encontrada para "{searchTerm}".
-        </div>
-      )}
     </div>
   );
 }

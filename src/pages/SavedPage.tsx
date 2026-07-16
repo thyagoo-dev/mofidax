@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useHistoryStore } from '../store/useHistoryStore';
-import { Download, Trash2, Clock, ArrowRightLeft, Minimize2, Maximize, Eye, X, Scissors, FileType2, Eraser } from 'lucide-react';
+import { Download, Trash2, Clock, ArrowRightLeft, Minimize2, Maximize, Eye, X, Scissors, FileType2, Eraser, Files, FileMinus, FileImage } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const formatBytes = (bytes: number) => {
@@ -16,7 +16,10 @@ const getActionStyle = (action: string) => {
     case 'Conversão': return 'bg-purple-400/10 text-purple-400';
     case 'Redimensionamento': return 'bg-emerald-400/10 text-emerald-400';
     case 'Recorte': return 'bg-amber-400/10 text-amber-400';
-    case 'Imagem para PDF': return 'bg-rose-400/10 text-rose-400';
+    case 'Imagem para PDF': 
+    case 'Juntar PDF': 
+    case 'Dividir PDF': 
+    case 'PDF para Imagem': return 'bg-rose-400/10 text-rose-400';
     case 'Remoção de Fundo': return 'bg-cyan-400/10 text-cyan-400';
     default: return 'bg-blue-400/10 text-blue-400';
   }
@@ -28,6 +31,9 @@ const getActionIcon = (action: string) => {
     case 'Redimensionamento': return <Maximize className="w-5 h-5" />;
     case 'Recorte': return <Scissors className="w-5 h-5" />;
     case 'Imagem para PDF': return <FileType2 className="w-5 h-5" />;
+    case 'Juntar PDF': return <Files className="w-5 h-5" />;
+    case 'Dividir PDF': return <FileMinus className="w-5 h-5" />;
+    case 'PDF para Imagem': return <FileImage className="w-5 h-5" />;
     case 'Remoção de Fundo': return <Eraser className="w-5 h-5" />;
     default: return <Minimize2 className="w-5 h-5" />;
   }
@@ -63,9 +69,6 @@ export function SavedPage() {
         <div className="flex-1 flex flex-col items-center justify-center text-secondary bg-surface border border-white/5 rounded-3xl p-10 mt-4">
           <Clock className="w-12 h-12 mb-4 opacity-20" />
           <p>Nenhum ficheiro no cache da sessão.</p>
-          <p className="text-sm opacity-60 text-center mt-2 max-w-sm">
-            As imagens que processar aparecerão aqui para resgate rápido.
-          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4">
@@ -89,12 +92,14 @@ export function SavedPage() {
               </div>
 
               <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
-                <button 
-                  onClick={() => setPreviewImage(item.url)}
-                  className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-primary px-4 py-2.5 rounded-xl font-medium transition-colors border border-white/5 active:scale-95"
-                >
-                  <Eye className="w-4 h-4" /> <span className="sm:hidden">Visualizar</span>
-                </button>
+                {item.format !== 'ZIP' && ( // Não tentamos "visualizar" um ficheiro ZIP no navegador
+                  <button 
+                    onClick={() => setPreviewImage(item.url)}
+                    className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-primary px-4 py-2.5 rounded-xl font-medium transition-colors border border-white/5 active:scale-95"
+                  >
+                    <Eye className="w-4 h-4" /> <span className="sm:hidden">Visualizar</span>
+                  </button>
+                )}
                 <a 
                   href={item.url}
                   download={item.fileName}
@@ -130,11 +135,15 @@ export function SavedPage() {
                 <X className="w-6 h-6 text-primary" />
               </button>
               
-              <img 
-                src={previewImage} 
-                alt="Preview" 
-                className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl ring-1 ring-white/10"
-              />
+              {previewImage.startsWith('blob:') && previewImage.includes('pdf') ? (
+                <iframe src={previewImage} className="w-full h-[80vh] rounded-lg shadow-2xl ring-1 ring-white/10 bg-white" title="PDF Preview" />
+              ) : (
+                <img 
+                  src={previewImage} 
+                  alt="Preview" 
+                  className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl ring-1 ring-white/10"
+                />
+              )}
             </motion.div>
           </div>
         )}

@@ -8,8 +8,11 @@ import { ConverterPage } from './pages/ConverterPage';
 import { SavedPage } from './pages/SavedPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { ResizePage } from './pages/ResizePage';
-import { CropPage } from './pages/CropPage'; // Nova Rota importada
-import { PdfPage } from './pages/PdfPage';
+import { CropPage } from './pages/CropPage';
+import { ImageToPdfPage } from './pages/ImageToPdfPage';
+import { MergePdfPage } from './pages/MergePdfPage';
+import { SplitPdfPage } from './pages/SplitPdfPage';
+import { PdfToImagePage } from './pages/PdfToImagePage'; // Importação
 import { BgRemovePage } from './pages/BgRemovePage';
 import { useSettingsStore } from './store/useSettingsStore';
 import { useHistoryStore } from './store/useHistoryStore';
@@ -29,7 +32,7 @@ export default function App() {
   }, []);
 
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter>
       <div className="min-h-screen flex flex-col relative bg-background">
         <Header />
         
@@ -38,9 +41,12 @@ export default function App() {
           <Route path="/compressor" element={<CompressorPage />} />
           <Route path="/convert" element={<ConverterPage />} />
           <Route path="/resize" element={<ResizePage />} />
-          <Route path="/crop" element={<CropPage />} /> {/* Adicionado ao Roteador */}
-          <Route path="/pdf" element={<PdfPage />} />
-          <Route path="/remove-bg" element={<BgRemovePage />} />
+          <Route path="/crop" element={<CropPage />} />
+          <Route path="/pdf" element={<ImageToPdfPage />} />
+          <Route path="/merge-pdf" element={<MergePdfPage />} />
+          <Route path="/split-pdf" element={<SplitPdfPage />} />
+          <Route path="/pdf-to-image" element={<PdfToImagePage />} /> {/* Nova Rota */}
+          <Route path="/bg-remove" element={<BgRemovePage />} />
           <Route path="/saved" element={<SavedPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Routes>

@@ -19,7 +19,7 @@ interface ImageItem {
   previewUrl: string;
 }
 
-export function PdfPage() {
+export function ImageToPdfPage() {
   const [images, setImages] = useState<ImageItem[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
