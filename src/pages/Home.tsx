@@ -1,4 +1,4 @@
-import { Search, Minimize2, ArrowRightLeft, Maximize, Scissors, FileType2, Eraser, Files, FileMinus, FileImage, Lock } from 'lucide-react';
+import { Search, Minimize2, ArrowRightLeft, Maximize, Scissors, FileType2, Eraser, Files, FileMinus, FileImage, Hash, RotateCw, ArrowDownUp, FileText, Lock, Music, Music4 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -10,8 +10,14 @@ const tools = [
   { id: 'pdf', name: 'Imagem para PDF', icon: FileType2, path: '/pdf', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true },
   { id: 'merge', name: 'Juntar PDF', icon: Files, path: '/merge-pdf', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true },
   { id: 'split', name: 'Dividir PDF', icon: FileMinus, path: '/split-pdf', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true },
-  { id: 'pdf2img', name: 'PDF para Imagem', icon: FileImage, path: '/pdf-to-image', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true }, // Adicionado!
+  { id: 'organize', name: 'Organizar PDF', icon: ArrowDownUp, path: '/organize-pdf', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true },
+  { id: 'rotate', name: 'Rodar PDF', icon: RotateCw, path: '/rotate-pdf', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true },
+  { id: 'word2pdf', name: 'Word para PDF', icon: FileText, path: '/word-to-pdf', color: 'text-blue-500', bg: 'bg-blue-500/10', isReady: false },
+  { id: 'pdf2img', name: 'PDF para Imagem', icon: FileImage, path: '/pdf-to-image', color: 'text-rose-400', bg: 'bg-rose-400/10', isReady: true },
+  { id: 'pdf2md', name: 'PDF para Markdown', icon: Hash, path: '/pdf-to-md', color: 'text-indigo-400', bg: 'bg-indigo-400/10', isReady: true },
   { id: 'bg', name: 'Remover Fundo', icon: Eraser, path: '/bg-remove', color: 'text-cyan-400', bg: 'bg-cyan-400/10', isReady: true },
+  { id: 'mp42mp3', name: 'MP4 para MP3', icon: Music, path: '/mp4-to-mp3', color: 'text-purple-500', bg: 'bg-purple-500/10', isReady: true },
+  { id: 'mp42m4a', name: 'MP4 para M4A', icon: Music4, path: '/mp4-to-m4a', color: 'text-amber-500', bg: 'bg-amber-500/10', isReady: true },
 ];
 
 export function Home() {

@@ -13,12 +13,16 @@ import { ImageToPdfPage } from './pages/ImageToPdfPage';
 import { MergePdfPage } from './pages/MergePdfPage';
 import { SplitPdfPage } from './pages/SplitPdfPage';
 import { PdfToImagePage } from './pages/PdfToImagePage';
+import { PdfToMarkdownPage } from './pages/PdfToMarkdownPage';
+import { RotatePdfPage } from './pages/RotatePdfPage';
+import { OrganizePdfPage } from './pages/OrganizePdfPage';
 import { BgRemovePage } from './pages/BgRemovePage';
+import { Mp4ToMp3Page } from './pages/Mp4ToMp3Page';
+import { Mp4ToM4aPage } from './pages/Mp4ToM4aPage';
 import { useSettingsStore } from './store/useSettingsStore';
 import { useHistoryStore } from './store/useHistoryStore';
 
 export default function App() {
-
   useEffect(() => {
     const handleUnload = () => {
       const { clearOnClose } = useSettingsStore.getState();
@@ -26,13 +30,12 @@ export default function App() {
         useHistoryStore.getState().clearHistory();
       }
     };
-
     window.addEventListener('beforeunload', handleUnload);
     return () => window.removeEventListener('beforeunload', handleUnload);
   }, []);
 
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter>
       <div className="min-h-screen flex flex-col relative bg-background">
         <Header />
         
@@ -46,7 +49,12 @@ export default function App() {
           <Route path="/merge-pdf" element={<MergePdfPage />} />
           <Route path="/split-pdf" element={<SplitPdfPage />} />
           <Route path="/pdf-to-image" element={<PdfToImagePage />} />
+          <Route path="/pdf-to-md" element={<PdfToMarkdownPage />} />
+          <Route path="/rotate-pdf" element={<RotatePdfPage />} />
+          <Route path="/organize-pdf" element={<OrganizePdfPage />} />
           <Route path="/bg-remove" element={<BgRemovePage />} />
+          <Route path="/mp4-to-mp3" element={<Mp4ToMp3Page />} />
+          <Route path="/mp4-to-m4a" element={<Mp4ToM4aPage />} />
           <Route path="/saved" element={<SavedPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Routes>

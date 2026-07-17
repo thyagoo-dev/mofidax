@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useHistoryStore } from '../store/useHistoryStore';
-import { Download, Trash2, Clock, ArrowRightLeft, Minimize2, Maximize, Eye, X, Scissors, FileType2, Eraser, Files, FileMinus, FileImage } from 'lucide-react';
+import { Download, Trash2, Clock, ArrowRightLeft, Minimize2, Maximize, Eye, X, Scissors, FileType2, Eraser, Files, FileMinus, FileImage, Hash, RotateCw, ArrowDownUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const formatBytes = (bytes: number) => {
@@ -19,7 +19,10 @@ const getActionStyle = (action: string) => {
     case 'Imagem para PDF': 
     case 'Juntar PDF': 
     case 'Dividir PDF': 
-    case 'PDF para Imagem': return 'bg-rose-400/10 text-rose-400';
+    case 'PDF para Imagem': 
+    case 'Rodar PDF': 
+    case 'Organizar PDF': return 'bg-rose-400/10 text-rose-400';
+    case 'PDF para Markdown': return 'bg-indigo-400/10 text-indigo-400';
     case 'Remoção de Fundo': return 'bg-cyan-400/10 text-cyan-400';
     default: return 'bg-blue-400/10 text-blue-400';
   }
@@ -34,6 +37,9 @@ const getActionIcon = (action: string) => {
     case 'Juntar PDF': return <Files className="w-5 h-5" />;
     case 'Dividir PDF': return <FileMinus className="w-5 h-5" />;
     case 'PDF para Imagem': return <FileImage className="w-5 h-5" />;
+    case 'Rodar PDF': return <RotateCw className="w-5 h-5" />;
+    case 'Organizar PDF': return <ArrowDownUp className="w-5 h-5" />; // Ícone
+    case 'PDF para Markdown': return <Hash className="w-5 h-5" />;
     case 'Remoção de Fundo': return <Eraser className="w-5 h-5" />;
     default: return <Minimize2 className="w-5 h-5" />;
   }
@@ -92,7 +98,7 @@ export function SavedPage() {
               </div>
 
               <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
-                {item.format !== 'ZIP' && ( // Não tentamos "visualizar" um ficheiro ZIP no navegador
+                {item.format !== 'ZIP' && item.format !== 'MD' && ( 
                   <button 
                     onClick={() => setPreviewImage(item.url)}
                     className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-primary px-4 py-2.5 rounded-xl font-medium transition-colors border border-white/5 active:scale-95"

@@ -11,6 +11,11 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 5174,
       strictPort: true, // Se a porta estiver ocupada, o Vite exibirá um erro em vez de trocar automaticamente.
+      // ADICIONADO AQUI: Cabeçalhos necessários para o FFmpeg / SharedArrayBuffer rodar localmente
+      headers: {
+        "Cross-Origin-Opener-Policy": "same-origin",
+        "Cross-Origin-Embedder-Policy": "require-corp",
+      },
     },
 
     // Necessário para deploy no GitHub Pages, mas só em produção
@@ -31,7 +36,7 @@ export default defineConfig(({ mode }) => {
         manifest: {
           name: 'Mofidax',
           short_name: 'Mofidax',
-          description: 'Plataforma de processamento de imagens de alta performance',
+          description: 'Plataforma de processamento de mídia de alta performance',
           theme_color: '#0a0a0a',
           background_color: '#0a0a0a',
           display: 'standalone',
