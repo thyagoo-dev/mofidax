@@ -35,7 +35,14 @@ export default function App() {
   }, []);
 
   return (
-    <BrowserRouter>
+    // ⚠️ ATENÇÃO: NÃO REMOVER o basename abaixo.
+    // Ele é obrigatório para o app funcionar em produção no GitHub Pages,
+    // que serve o site em /mofidax/ (não na raiz do domínio).
+    // Sem o basename, todas as rotas quebram em produção com o erro:
+    // "No routes matched location '/mofidax/...'"
+    // Se este arquivo for reescrito no futuro (nova feature, refatoração, etc.),
+    // confira SEMPRE se essa linha continua aqui antes de fazer deploy.
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="min-h-screen flex flex-col relative bg-background">
         <Header />
         
